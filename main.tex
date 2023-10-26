@@ -1,0 +1,250 @@
+% VLDB template version of 2020-08-03 enhances the ACM template, version 1.7.0:
+% https://www.acm.org/publications/proceedings-template
+% The ACM Latex guide provides further information about the ACM template
+
+\documentclass[sigconf, nonacm]{acmart}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+%% The following content must be adapted for the final version
+% paper-specific
+\newcommand\vldbdoi{XX.XX/XXX.XX}
+\newcommand\vldbpages{XXX-XXX}
+% issue-specific
+\newcommand\vldbvolume{14}
+\newcommand\vldbissue{1}
+\newcommand\vldbyear{2020}
+% should be fine as it is
+\newcommand\vldbauthors{\authors}
+\newcommand\vldbtitle{\shorttitle} 
+% leave empty if no availability url should be set
+\newcommand\vldbavailabilityurl{URL_TO_YOUR_ARTIFACTS}
+% whether page numbers should be shown or not, use 'plain' for review versions, 'empty' for camera ready
+\newcommand\vldbpagestyle{plain} 
+
+\begin{document}
+\title{Converged Optimizer for Efficient Join Order Optimization}
+
+%%
+%% The "author" command and its associated commands are used to define the authors and their affiliations.
+%\author{Ben Trovato}
+%\affiliation{%
+%  \institution{Institute for Clarity in Documentation}
+%  \streetaddress{P.O. Box 1212}
+%  \city{Dublin}
+%  \state{Ireland}
+%  \postcode{43017-6221}
+%}
+%\email{trovato@corporation.com}
+
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+
+\end{abstract}
+
+\maketitle
+
+\section{Motivation}
+\label{sec:motivation}
+With the fast development and numerous usage of graph databases, graphs have been widely used in various fields to model data, such as the transportation networks, social networks, and financial systems.
+Since graphs have obtain more attention in both the industrial and academic areas, SQL/PGQ has added the semantics about graphs into the standard, and allows to conduct subgraph matching on relational databases.
+By default, subgraph matching in SQL/PGQ indicates homomorphism subgraph matching, and such subgraph matching problems can be solved by multiple joins on tables.
+As subgraph matching is a common and useful problem in both real-world and industrial applications, it is reasonable to provide relational the capability of efficienly deal with the subgraph matching problem.
+
+Given the pattern graph, relational databases can conduct multiple joins to solve the subgraph matching problem.
+However, as stated in the previous literatures, the join order can influence the efficiency of queries significantly.
+Specifically, querying with a plan with a good join order can be more than an order of magnitude faster than that with a bad join order.
+Therefore, the join order optimization problem (abbr.~JOOP) becomes more important and it is urgent to design efficient methods for JOOP.
+Many strategies have been proposed in the previous studies. 
+The methods used to solve JOOP are called the join order optimizers (abbr.~JOPTs).
+% For simplicity, the segment of a optimizer, which is used to optimize the join order, is called the JOO-optimizer in this paper.
+Given a SQL/PGQ query with subgraph matching, the existing work can be mainly categorized into two types regarding the ways they optimize the join order, i.e., translation-based JOPTs and Index-based JOPTs.
+
+%However, although the relations and graphs are combined in the language levels as shown in SQL/PQL, they are still far from fully integrated in real-world applications, and the features of relations and are graphs are not exploited completely.
+%For instance, relational optimizer and graph optimizer are hot and important topics in recent years, and the integration of them are not deeply studied yet. 
+%In this paper, we focus on the problem of achieving better performances on query optimization by leveraging both the features of relational optimizers and graph optimizers.
+%There are already many studies about relational optimizers and graph optimizers, and some existing works study the problem of involving the graph optimizer in the relational optimizer.
+%These works can be categorized into two types, i.e., translation-based optimizer and hybrid optimizer.
+
+\textbf{Translation-based JOPTs} translate the SQL/PGQ queries into relational queries, and then utilize the techniques of relational optimizers to optimize the translated query and find the optimal join order. 
+A typical example is Apache/Age. 
+Apache/Age translates the openCypher queries to relational queries and process the query with PostgreSQL relational database management system.
+This type of methods process the JOO problem with relational query optimizers, which have been widely studied for a long time.
+
+\textbf{Index-based JOPTs} combine the join order optimization techniques of relational optimizers and graph optimizers into a index-based JOPT.
+Then, this optimizer can optimize graph query with the techniques of graph optimizers, and optimize relational queries with the techniques of relational optimizers.
+In this way, the graph features (e.g., the neighborhood information) can be exploited, and the benefits of both relations and graphs can be leveraged. 
+Normally, graph optimizers are involved into relational databases to combine the generate the index-based JOPTs.
+In index-based JOPTs, to exploit the techniques of graph optimizers, graph indices need to be built, and sometimes graph views are also necessary to be constructed. 
+A example of index-based JOPTs is that in GrainDB \cite{graindb}.
+GrainDB is a relational database developed based on DuckDB.
+It designs RID (Row ID) index to store the adjacent edges and one-hop neighbors of vertices.
+Then, the results of several joins operators can be obtained by visiting the RID index once, and the efficiency of multiple join can be improved.
+
+
+It is clear that index-based JOPTs can have better performances than the translation-based JOPTs.
+The reason is that the index-based JOPTs can exert the capabilities of the existing studies w.r.t.~both relational optimizers and graph optimizers.
+However, since the translation-based JOPTs translate graph queries into relational queries, they have the same power as relational optimizers in terms of join order optimization.
+Therefore, the translation-based JOPTs actually only utilize the optimization of the relational optimizer, and the benefits of graph optimizers are hardly exploited.
+However, the existing index-based JOPTs only make the process of getting neighbors of vertices and getting adjacent vertices of edges conveniently.
+The process of optimization is not adjusted correspondingly, and the optimial plan are probably missed.
+
+In this paper, we propose to design a converged JOPT, which integrates the relational optimizer and graph optimizer more deeply and evaluates the cost of operators more accurately. 
+To design such a converged JOPT, there are mainly two challenges.
+
+\textbf{Challenge 1: How to reduce the complexity of optimization}. 
+For a relational optimizer like calcite, all the related tables are involved in the process of optimization, and different orders of joining these tables are traversed.
+Besides, the physical implementations of operators are varied (e.g., merge join and hash join), and the cost of using different physical implementations should also be tried.
+Therefore, the process of optimization and finding the best physical plan is time-consuming.
+Then, after the JOPT from a relational optimzier is combined with the techniques in graph optimizers, the obtained JOPT can be more complex to conduct optimization.
+Thus, it is necessary to design the JOPT efficiently to reduce the time complexity of optimization.
+
+
+\textbf{Challenge 2. How to find a better plan when relational and graph optimizers are regarded together}.
+Given a relational database, after the graph indices are built int it and graph views are constructed, some joins in a multiple join can be performed more efficiently, makeing the time cost reduce significantly.
+For example, given three tables V1, E, and V2, suppose these three tables are joined (i.e., V1 $\bowtie$ E $\bowtie$ V2).
+Then, if the tuples in V1 and V2 represent vertices in a graph, and the tuples in E represent edges in the graph, such a join means to find the one-hop neighbors of the vertices in V1.
+Im a graph index (which is also a table), we can record the adjacent edges of the vertices in V1, and the process of joining V1 and E can be accelerated.
+Besides, we can also record the neighbors of the vertices in V1, and then the neigbors of V1 can be obtained more easily with the index.
+Clearly, the cost of V1 $\bowtie$ E $\bowtie$ V2 with the graph index is much smaller than the cost without the graph index.
+Therefore, in a converged JOPT, the cost of join operators should be analyzed more carefully for generating better plans.
+
+
+To the best of our knowledge, the existing JOPTs do not address these two challenges very well.
+For example, GRainDB (based on DuckDB) implements graph indices that record the neighbors of each vertex.
+However, GRainDB still uses the join order optimization methods in DuckDB, which is designed regardless of the graph indices and graph optimizer.
+After the optimal physical plan is generated, GRainDB replaces some join operators with new join operators using graph indices to accelerate the queries.
+Note that, the complexity of optimization is not reduced (Challenge 1), and the cost estimation is inaccurate.
+Besides, since graph indices are not considered in the process of optimiztion, the search space of physical plans is not complete, and the optimal plan may be overlooked (Challenge 2).
+
+Therefore, we tend to discover a better way to integrate the intelligence of join order optimziation in both relational optimizer and graph optimizer, and address the two challenges efficienly.
+In detail, our contributions in this paper are as follows:
+
+(1) We solve the problem of JOOP by designing an efficient converged JOPT, which deeply integrates the techniques of relational optimizers and graph optimizers to deal with the queries meeting the requirements of SQL/PGQ.
+Instead of translating subgraph matching into corresponding relational queries or simply building indices, we carefully leverage the capabilities of both relational and graph optimizer to deal with such queries more efficiently.
+
+(2) GLogue is applied to optimize the graph queries and generate the optimial physical plan.
+In GLogue, patterns can be entended or be joined together, and the cost is estimated according to the built graph indices.
+Besides, GLogue is worst-case optimial, and acclerates the process of optimization by inducing edge tables with vertex tables, and exploiting symmetry-breaking.
+
+(3) We analyze the time complexity of join order optimization with Calcite and with GLogue, respectively.
+The theorems indicate that join order optimization with GLogue can be exponentially faster than that with Calcite.
+This theoretically prove that the GLogue has much better performance in multiple join.
+
+(4) Experimental results show that our optimizer has smaller time cost in optimization, and can generate better plans than DuckDB and GRainDB.
+
+
+\section{Related Work}
+\label{sec:related-work}
+In this section, we first summarize the previous studies of join order optimization methods in relational optimizers and in graph optimizers, respectively.
+Then, existing index-based JOPTs are introduced.
+Since such methods can be categorized into two types, i.e., translation-based JOPTs and index-based JOPTs, the related work of them are presented respectively.
+
+\subsection{Join Order Optimization in Relational JOPTs}
+\label{sec:related-work:ropt}
+Join order optimization in relational databases is a traditional topic and has attained substantial accomplishments.
+Various JOPTs have been proposed to accelerate the process of optimization.
+Ibaraki et al.~\cite{nested-tods-1984} propose that there are usually fewer than ten tables involved in a typical query, and deal with joins with nested-loops join.
+Specifically, they prove the NP-complexity of the join order optimization problem, and design an efficient algorithm with a time complexity of $O(n^2logn)$ to optimize tree queries.
+Then, Krishnamurthy et al.~\cite{optimize-nested-vldb-1986} optimize the algorithm, and propose an algorithm with time complexity of $O(N^2)$ by reusing the computation results.
+Besides, the authors emphasize that since finding the optimal join order is a complex problem, it is more important to avoid the worst plan.
+Moreover, Haffner et al.~\cite{astarjoin} convert the problem of join order optimization to the problem of finding shortest path on directed graphs, and solve the problem with the A* algorithm.
+In details, four heuristics are designed to estimate the remaining cost.
+Furthermore, Kossmann et al.~\cite{data-dependency-join} summarize the methods to optimize queries with data dependencies.
+For example, given two tables $T_1$ and $T_2$, if the values of attribute $A_1$ on $T_1$ are unique, then the inner-join in queries like 
+\begin{equation*}
+    \text{SELECT}\hspace{.5em} T_2.A_2 \hspace{.5em}\text{FROM}\hspace{.5em} T_1, T_2 \hspace{.5em}\text{WHERE}\hspace{.5em} T_1.A_1 = T_2.A_2
+\end{equation*}
+may be converted into a semi-join, which is more efficient.
+
+
+There are also some studies that try to find better plans with more accurate estimation of cardinalities.
+Some researchers propose to estimate the number of cardinalities with sampling \cite{index-based-join-sampling,ripple-join,wanderjoin,index-based-join-sampling}.
+Specifically, Li et al.~\cite{wanderjoin} present an unbiased estimator based on random walk to estimate the cardinalities.
+Leis et al.~\cite{index-based-join-sampling} propose a cheap method, i.e., index-based join sampling, to improve the accuracy.
+Some other researchers \cite{selinger,postgres-row-estimation} estimate the number of cardinalities by computing the selectivity of $A \bowtie_{A.col_1 = B.col_2} B$ as 
+\begin{equation*}
+    \frac{1}{max(DV(A.col_1), DV(B.col_2))},
+\end{equation*}
+where $DV(A.col_1)$ is the number of distinct values of $A.col_1$ in table $A$.
+Besides, some studies estimate the number of cardinalities with histograms \cite{histogram,postgres-row-estimation}.
+These methods split the values of a table column into several buckets to build a histogram, and assume that the values are uniformly distributed in each bucket.
+Then, the cardinality is estimated by summing up the numbers of values in the related buckets.
+Moreover, there are also some studies estimate cardinalities with learning-based methods \cite{learning-based-estimation-1,learning-based-estimation-2,learning-based-estimation-3,learning-based-estimation-4}.
+
+
+\subsection{Join Order Optimization in Graph JOPTs}
+\label{sec:related-work:gopt}
+When the subgraph matching problem is solved by the join of tables representing vertices and edges, graph optimizers are considered to deal with JOOP as well.
+
+Recently, some studies have been conducted to estimate cardinalities in the process of subgraph matching.
+In detail, 
+C-Set \cite{cset} decomposes the query graph and the data graph into star-shaped subgraphs, and constructs characteristic sets to estimate.
+AutoMine \cite{AutoMine} proposes to estimate the cost of a plan for subgraph matching with the number of iterations in the nested loop.
+DecoMine \cite{DecoMine} improve the method of AutoMine and presents an approximate-mining based cost model to estimate the costs of nested loops.
+Then, DecoMine finds the optimal abstract syntex tree with the smallest cost.
+GLogS \cite{GLogS} proposes a graph optimizer named GLogue to search for the optimal plan.
+In GLogue, an edge can represent a binary join or a subtask of an extension, and please note that an extension can be regarded as a set of joins.
+GLogue computes the optimal plan in a bottom-up manner, and can efficiently obtain a worst-case optimal plan.
+Besides, G-CARE \cite{gcare} compares the performances of different methods for cardinality estimation.
+
+
+
+\subsection{Join Order Optimization in Relational-Graph JOPTs}
+\label{sec:related-work:ropt-gopt}
+The existing works about integrating relational optimizers and graph optimizers can be roughly categorized into two classes, i.e., translation-based JOPTs and index-based JOPTs.
+
+In terms of translation-based JOPTs, Apache/Age \cite{apache-age} is a typical work.
+Apache/Age is an extension of PostgreSQL, and it provides the ability to handle hybrid queries including openCypher and SQL.
+In detail, after a graph is created, a namespace with the same name as the graph is created, and the vertices and edges are stored in corresponding tables in the namespace.
+When a query with both openCypher and SQL statements is conducted, Apache/Age transforms the openCypher statements and convert the operators to those in PostgreSQL (e.g., join), and then the query is solved by PostgreSQL.
+It seems that Apache/Age is like a syntactic sugar, and the advantanges of graphs and graph optimizers are not utilized.
+
+In terms of index-based JOPTs, such methods build graph indices or graph views on the relational databases, and attempt to accelerate queries with the indices.
+GRFusion \cite{GRFusion} builds a graph view in main-memory based on the relational tables, and supports queries on both tables and graph views.
+Then, some relational joins can be replaced with graph traversals, and some graph-level optimizations can be applied.
+GQ-Fast \cite{gqfast} store the relational tables in the form of graphs, and generate physical plans by optimizing Relationship Query Normalized Algebra expressions with a Physical-plan Producer.
+GrainDB \cite{graindb} builds RID indices, and presents two new join methods (i.e., sip-join and merged-sip-join) that can get the adjacent edges and one-hop neighbors of vertices with RID indices.
+Based on these join methods, in some settings, the cost of multiple joins can be reduced significantly.
+However, GrainDB inherits the optimizer of DuckDB, and replaces some joins with sip-joins and merged-sip-joins.
+Therefore, cost estimation in the optimizer may not be optimal and the best plan can be missed.
+
+
+\section{Preliminaries}
+\label{sec:preliminaries}
+
+
+\section{Overview of the Relational-Graph Optimizer}
+\label{sec:system-design}
+
+
+\section{Theoretical Analysis about the Superiority of Graph Optimizer}
+\label{sec:theoretical-analysis}
+
+
+\section{System Implementation}
+\label{sec:system-implementation}
+
+
+\section{Experiments}
+\label{sec:experiments}
+
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+
+%\begin{acks}
+% This work was supported by the [...] Research Fund of [...] (Number [...]). Additional funding was provided by [...] and [...]. We also thank [...] for contributing [...].
+%\end{acks}
+
+%\clearpage
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample}
+
+\end{document}
+\endinput

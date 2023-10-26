@@ -1,0 +1,285 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{23}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{??}{apa}{[n.d.]}]%
+        {apache-age}
+ \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Apache/Age}}.
+\newblock
+\urldef\tempurl%
+\url{https://github.com/apache/age}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{PostgreSQL}{pos}{2023}]%
+        {postgres-row-estimation}
+PostgreSQL \bibinfo{year}{2023}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Postgresql Documentation 16. Chapter 76.1. Row Estimation Examples}}.
+\newblock PostgreSQL.
+\newblock
+\urldef\tempurl%
+\url{https://www.postgresql.org/docs/current/row-estimation-examples.html}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Chaudhuri}{Chaudhuri}{1998}]%
+        {histogram}
+\bibfield{author}{\bibinfo{person}{Surajit Chaudhuri}.} \bibinfo{year}{1998}\natexlab{}.
+\newblock \showarticletitle{An Overview of Query Optimization in Relational Systems}. In \bibinfo{booktitle}{\emph{Proceedings of the Seventeenth {ACM} {SIGACT-SIGMOD-SIGART} Symposium on Principles of Database Systems, June 1-3, 1998, Seattle, Washington, {USA}}}, \bibfield{editor}{\bibinfo{person}{Alberto~O. Mendelzon} {and} \bibinfo{person}{Jan Paredaens}} (Eds.). \bibinfo{publisher}{{ACM} Press}, \bibinfo{pages}{34--43}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/275487.275492}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Chen and Qian}{Chen and Qian}{2023}]%
+        {DecoMine}
+\bibfield{author}{\bibinfo{person}{Jingji Chen} {and} \bibinfo{person}{Xuehai Qian}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{DecoMine: {A} Compilation-Based Graph Pattern Mining System with Pattern Decomposition}. In \bibinfo{booktitle}{\emph{Proceedings of the 28th {ACM} International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 1, {ASPLOS} 2023, Vancouver, BC, Canada, March 25-29, 2023}}, \bibfield{editor}{\bibinfo{person}{Tor~M. Aamodt}, \bibinfo{person}{Natalie D.~Enright Jerger}, {and} \bibinfo{person}{Michael~M. Swift}} (Eds.). \bibinfo{publisher}{{ACM}}, \bibinfo{pages}{47--61}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3567955.3567956}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Haas and Hellerstein}{Haas and Hellerstein}{1999}]%
+        {ripple-join}
+\bibfield{author}{\bibinfo{person}{Peter~J. Haas} {and} \bibinfo{person}{Joseph~M. Hellerstein}.} \bibinfo{year}{1999}\natexlab{}.
+\newblock \showarticletitle{Ripple Joins for Online Aggregation}. In \bibinfo{booktitle}{\emph{{SIGMOD} 1999, Proceedings {ACM} {SIGMOD} International Conference on Management of Data, June 1-3, 1999, Philadelphia, Pennsylvania, {USA}}}, \bibfield{editor}{\bibinfo{person}{Alex Delis}, \bibinfo{person}{Christos Faloutsos}, {and} \bibinfo{person}{Shahram Ghandeharizadeh}} (Eds.). \bibinfo{publisher}{{ACM} Press}, \bibinfo{pages}{287--298}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/304182.304208}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Haffner and Dittrich}{Haffner and Dittrich}{2023}]%
+        {astarjoin}
+\bibfield{author}{\bibinfo{person}{Immanuel Haffner} {and} \bibinfo{person}{Jens Dittrich}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Efficiently Computing Join Orders with Heuristic Search}.
+\newblock \bibinfo{journal}{\emph{Proc. {ACM} Manag. Data}} \bibinfo{volume}{1}, \bibinfo{number}{1} (\bibinfo{year}{2023}), \bibinfo{pages}{73:1--73:26}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3588927}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Hassan, Kuznetsova, Jeong, Aref, and Sadoghi}{Hassan et~al\mbox{.}}{2018}]%
+        {GRFusion}
+\bibfield{author}{\bibinfo{person}{Mohamed~S. Hassan}, \bibinfo{person}{Tatiana Kuznetsova}, \bibinfo{person}{Hyun~Chai Jeong}, \bibinfo{person}{Walid~G. Aref}, {and} \bibinfo{person}{Mohammad Sadoghi}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Extending In-Memory Relational Database Engines with Native Graph Support}. In \bibinfo{booktitle}{\emph{Proceedings of the 21st International Conference on Extending Database Technology, {EDBT} 2018, Vienna, Austria, March 26-29, 2018}}, \bibfield{editor}{\bibinfo{person}{Michael~H. B{\"{o}}hlen}, \bibinfo{person}{Reinhard Pichler}, \bibinfo{person}{Norman May}, \bibinfo{person}{Erhard Rahm}, \bibinfo{person}{Shan{-}Hung Wu}, {and} \bibinfo{person}{Katja Hose}} (Eds.). \bibinfo{publisher}{OpenProceedings.org}, \bibinfo{pages}{25--36}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.5441/002/EDBT.2018.04}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Ibaraki and Kameda}{Ibaraki and Kameda}{1984}]%
+        {nested-tods-1984}
+\bibfield{author}{\bibinfo{person}{Toshihide Ibaraki} {and} \bibinfo{person}{Tiko Kameda}.} \bibinfo{year}{1984}\natexlab{}.
+\newblock \showarticletitle{On the Optimal Nesting Order for Computing N-Relational Joins}.
+\newblock \bibinfo{journal}{\emph{{ACM} Trans. Database Syst.}} \bibinfo{volume}{9}, \bibinfo{number}{3} (\bibinfo{year}{1984}), \bibinfo{pages}{482--502}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/1270.1498}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Jin and Salihoglu}{Jin and Salihoglu}{2022}]%
+        {graindb}
+\bibfield{author}{\bibinfo{person}{Guodong Jin} {and} \bibinfo{person}{Semih Salihoglu}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Making RDBMSs Efficient on Graph Workloads Through Predefined Joins}.
+\newblock \bibinfo{journal}{\emph{Proc. {VLDB} Endow.}} \bibinfo{volume}{15}, \bibinfo{number}{5} (\bibinfo{year}{2022}), \bibinfo{pages}{1011--1023}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.14778/3510397.3510400}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Kipf, Kipf, Radke, Leis, Boncz, and Kemper}{Kipf et~al\mbox{.}}{2019}]%
+        {learning-based-estimation-4}
+\bibfield{author}{\bibinfo{person}{Andreas Kipf}, \bibinfo{person}{Thomas Kipf}, \bibinfo{person}{Bernhard Radke}, \bibinfo{person}{Viktor Leis}, \bibinfo{person}{Peter~A. Boncz}, {and} \bibinfo{person}{Alfons Kemper}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Learned Cardinalities: Estimating Correlated Joins with Deep Learning}. In \bibinfo{booktitle}{\emph{9th Biennial Conference on Innovative Data Systems Research, {CIDR} 2019, Asilomar, CA, USA, January 13-16, 2019, Online Proceedings}}. \bibinfo{publisher}{www.cidrdb.org}.
+\newblock
+\urldef\tempurl%
+\url{http://cidrdb.org/cidr2019/papers/p101-kipf-cidr19.pdf}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Kossmann, Papenbrock, and Naumann}{Kossmann et~al\mbox{.}}{2022}]%
+        {data-dependency-join}
+\bibfield{author}{\bibinfo{person}{Jan Kossmann}, \bibinfo{person}{Thorsten Papenbrock}, {and} \bibinfo{person}{Felix Naumann}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Data dependencies for query optimization: a survey}.
+\newblock \bibinfo{journal}{\emph{{VLDB} J.}} \bibinfo{volume}{31}, \bibinfo{number}{1} (\bibinfo{year}{2022}), \bibinfo{pages}{1--22}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1007/s00778-021-00676-3}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Krishnamurthy, Boral, and Zaniolo}{Krishnamurthy et~al\mbox{.}}{1986}]%
+        {optimize-nested-vldb-1986}
+\bibfield{author}{\bibinfo{person}{Ravi Krishnamurthy}, \bibinfo{person}{Haran Boral}, {and} \bibinfo{person}{Carlo Zaniolo}.} \bibinfo{year}{1986}\natexlab{}.
+\newblock \showarticletitle{Optimization of Nonrecursive Queries}. In \bibinfo{booktitle}{\emph{VLDB'86 Twelfth International Conference on Very Large Data Bases, August 25-28, 1986, Kyoto, Japan, Proceedings}}, \bibfield{editor}{\bibinfo{person}{Wesley~W. Chu}, \bibinfo{person}{Georges Gardarin}, \bibinfo{person}{Setsuo Ohsuga}, {and} \bibinfo{person}{Yahiko Kambayashi}} (Eds.). \bibinfo{publisher}{Morgan Kaufmann}, \bibinfo{pages}{128--137}.
+\newblock
+\urldef\tempurl%
+\url{http://www.vldb.org/conf/1986/P128.PDF}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Lai, Yang, Wang, Liu, Ma, Shen, Lyu, Zhou, Yu, Qian, Tian, Zhong, Chung, and Zhou}{Lai et~al\mbox{.}}{2023}]%
+        {GLogS}
+\bibfield{author}{\bibinfo{person}{Longbin Lai}, \bibinfo{person}{Yufan Yang}, \bibinfo{person}{Zhibin Wang}, \bibinfo{person}{Yuxuan Liu}, \bibinfo{person}{Haotian Ma}, \bibinfo{person}{Sijie Shen}, \bibinfo{person}{Bingqing Lyu}, \bibinfo{person}{Xiaoli Zhou}, \bibinfo{person}{Wenyuan Yu}, \bibinfo{person}{Zhengping Qian}, \bibinfo{person}{Chen Tian}, \bibinfo{person}{Sheng Zhong}, \bibinfo{person}{Yeh{-}Ching Chung}, {and} \bibinfo{person}{Jingren Zhou}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{GLogS: Interactive Graph Pattern Matching Query At Large Scale}. In \bibinfo{booktitle}{\emph{2023 {USENIX} Annual Technical Conference, {USENIX} {ATC} 2023, Boston, MA, USA, July 10-12, 2023}}, \bibfield{editor}{\bibinfo{person}{Julia Lawall} {and} \bibinfo{person}{Dan Williams}} (Eds.). \bibinfo{publisher}{{USENIX} Association}, \bibinfo{pages}{53--69}.
+\newblock
+\urldef\tempurl%
+\url{https://www.usenix.org/conference/atc23/presentation/lai}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Leis, Radke, Gubichev, Kemper, and Neumann}{Leis et~al\mbox{.}}{2017}]%
+        {index-based-join-sampling}
+\bibfield{author}{\bibinfo{person}{Viktor Leis}, \bibinfo{person}{Bernhard Radke}, \bibinfo{person}{Andrey Gubichev}, \bibinfo{person}{Alfons Kemper}, {and} \bibinfo{person}{Thomas Neumann}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Cardinality Estimation Done Right: Index-Based Join Sampling}. In \bibinfo{booktitle}{\emph{8th Biennial Conference on Innovative Data Systems Research, {CIDR} 2017, Chaminade, CA, USA, January 8-11, 2017, Online Proceedings}}. \bibinfo{publisher}{www.cidrdb.org}.
+\newblock
+\urldef\tempurl%
+\url{http://cidrdb.org/cidr2017/papers/p9-leis-cidr17.pdf}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Li, Wu, Yi, and Zhao}{Li et~al\mbox{.}}{2016}]%
+        {wanderjoin}
+\bibfield{author}{\bibinfo{person}{Feifei Li}, \bibinfo{person}{Bin Wu}, \bibinfo{person}{Ke Yi}, {and} \bibinfo{person}{Zhuoyue Zhao}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Wander Join: Online Aggregation via Random Walks}. In \bibinfo{booktitle}{\emph{Proceedings of the 2016 International Conference on Management of Data, {SIGMOD} Conference 2016, San Francisco, CA, USA, June 26 - July 01, 2016}}, \bibfield{editor}{\bibinfo{person}{Fatma {\"{O}}zcan}, \bibinfo{person}{Georgia Koutrika}, {and} \bibinfo{person}{Sam Madden}} (Eds.). \bibinfo{publisher}{{ACM}}, \bibinfo{pages}{615--629}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/2882903.2915235}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Lin, Mandel, Papakonstantinou, and Springer}{Lin et~al\mbox{.}}{2016}]%
+        {gqfast}
+\bibfield{author}{\bibinfo{person}{Chunbin Lin}, \bibinfo{person}{Benjamin Mandel}, \bibinfo{person}{Yannis Papakonstantinou}, {and} \bibinfo{person}{Matthias Springer}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Fast In-Memory {SQL} Analytics on Typed Graphs}.
+\newblock \bibinfo{journal}{\emph{Proc. {VLDB} Endow.}} \bibinfo{volume}{10}, \bibinfo{number}{3} (\bibinfo{year}{2016}), \bibinfo{pages}{265--276}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.14778/3021924.3021941}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Mawhirter and Wu}{Mawhirter and Wu}{2019}]%
+        {AutoMine}
+\bibfield{author}{\bibinfo{person}{Daniel Mawhirter} {and} \bibinfo{person}{Bo Wu}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{AutoMine: harmonizing high-level abstraction and high performance for graph mining}. In \bibinfo{booktitle}{\emph{Proceedings of the 27th {ACM} Symposium on Operating Systems Principles, {SOSP} 2019, Huntsville, ON, Canada, October 27-30, 2019}}, \bibfield{editor}{\bibinfo{person}{Tim Brecht} {and} \bibinfo{person}{Carey Williamson}} (Eds.). \bibinfo{publisher}{{ACM}}, \bibinfo{pages}{509--523}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3341301.3359633}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Neumann and Moerkotte}{Neumann and Moerkotte}{2011}]%
+        {cset}
+\bibfield{author}{\bibinfo{person}{Thomas Neumann} {and} \bibinfo{person}{Guido Moerkotte}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Characteristic sets: Accurate cardinality estimation for {RDF} queries with multiple joins}. In \bibinfo{booktitle}{\emph{Proceedings of the 27th International Conference on Data Engineering, {ICDE} 2011, April 11-16, 2011, Hannover, Germany}}, \bibfield{editor}{\bibinfo{person}{Serge Abiteboul}, \bibinfo{person}{Klemens B{\"{o}}hm}, \bibinfo{person}{Christoph Koch}, {and} \bibinfo{person}{Kian{-}Lee Tan}} (Eds.). \bibinfo{publisher}{{IEEE} Computer Society}, \bibinfo{pages}{984--994}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1109/ICDE.2011.5767868}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Park, Ko, Bhowmick, Kim, Hong, and Han}{Park et~al\mbox{.}}{2020}]%
+        {gcare}
+\bibfield{author}{\bibinfo{person}{Yeonsu Park}, \bibinfo{person}{Seongyun Ko}, \bibinfo{person}{Sourav~S. Bhowmick}, \bibinfo{person}{Kyoungmin Kim}, \bibinfo{person}{Kijae Hong}, {and} \bibinfo{person}{Wook{-}Shin Han}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{G-CARE:} {A} Framework for Performance Benchmarking of Cardinality Estimation Techniques for Subgraph Matching}. In \bibinfo{booktitle}{\emph{Proceedings of the 2020 International Conference on Management of Data, {SIGMOD} Conference 2020, online conference [Portland, OR, USA], June 14-19, 2020}}, \bibfield{editor}{\bibinfo{person}{David Maier}, \bibinfo{person}{Rachel Pottinger}, \bibinfo{person}{AnHai Doan}, \bibinfo{person}{Wang{-}Chiew Tan}, \bibinfo{person}{Abdussalam Alawini}, {and} \bibinfo{person}{Hung~Q. Ngo}} (Eds.). \bibinfo{publisher}{{ACM}}, \bibinfo{pages}{1099--1114}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3318464.3389702}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Selinger, Astrahan, Chamberlin, Lorie, and Price}{Selinger et~al\mbox{.}}{1979}]%
+        {selinger}
+\bibfield{author}{\bibinfo{person}{Patricia~G. Selinger}, \bibinfo{person}{Morton~M. Astrahan}, \bibinfo{person}{Donald~D. Chamberlin}, \bibinfo{person}{Raymond~A. Lorie}, {and} \bibinfo{person}{Thomas~G. Price}.} \bibinfo{year}{1979}\natexlab{}.
+\newblock \showarticletitle{Access Path Selection in a Relational Database Management System}. In \bibinfo{booktitle}{\emph{Proceedings of the 1979 {ACM} {SIGMOD} International Conference on Management of Data, Boston, Massachusetts, USA, May 30 - June 1}}, \bibfield{editor}{\bibinfo{person}{Philip~A. Bernstein}} (Ed.). \bibinfo{publisher}{{ACM}}, \bibinfo{pages}{23--34}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/582095.582099}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Sun and Li}{Sun and Li}{2019}]%
+        {learning-based-estimation-1}
+\bibfield{author}{\bibinfo{person}{Ji Sun} {and} \bibinfo{person}{Guoliang Li}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{An End-to-End Learning-based Cost Estimator}.
+\newblock \bibinfo{journal}{\emph{Proc. {VLDB} Endow.}} \bibinfo{volume}{13}, \bibinfo{number}{3} (\bibinfo{year}{2019}), \bibinfo{pages}{307--319}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.14778/3368289.3368296}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Yang, Kamsetty, Luan, Liang, Duan, Chen, and Stoica}{Yang et~al\mbox{.}}{2020}]%
+        {learning-based-estimation-3}
+\bibfield{author}{\bibinfo{person}{Zongheng Yang}, \bibinfo{person}{Amog Kamsetty}, \bibinfo{person}{Sifei Luan}, \bibinfo{person}{Eric Liang}, \bibinfo{person}{Yan Duan}, \bibinfo{person}{Xi Chen}, {and} \bibinfo{person}{Ion Stoica}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{NeuroCard: One Cardinality Estimator for All Tables}.
+\newblock \bibinfo{journal}{\emph{Proc. {VLDB} Endow.}} \bibinfo{volume}{14}, \bibinfo{number}{1} (\bibinfo{year}{2020}), \bibinfo{pages}{61--73}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.14778/3421424.3421432}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Zhu, Wu, Han, Zeng, Pfadler, Qian, Zhou, and Cui}{Zhu et~al\mbox{.}}{2021}]%
+        {learning-based-estimation-2}
+\bibfield{author}{\bibinfo{person}{Rong Zhu}, \bibinfo{person}{Ziniu Wu}, \bibinfo{person}{Yuxing Han}, \bibinfo{person}{Kai Zeng}, \bibinfo{person}{Andreas Pfadler}, \bibinfo{person}{Zhengping Qian}, \bibinfo{person}{Jingren Zhou}, {and} \bibinfo{person}{Bin Cui}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{FLAT:} Fast, Lightweight and Accurate Method for Cardinality Estimation}.
+\newblock \bibinfo{journal}{\emph{Proc. {VLDB} Endow.}} \bibinfo{volume}{14}, \bibinfo{number}{9} (\bibinfo{year}{2021}), \bibinfo{pages}{1489--1502}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.14778/3461535.3461539}
+\showDOI{\tempurl}
+
+
+\end{thebibliography}

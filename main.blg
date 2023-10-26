@@ -1,0 +1,87 @@
+This is BibTeX, Version 0.99d (TeX Live 2023)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: ACM-Reference-Format.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: sample.bib
+Warning--string name "september" is undefined
+--line 1008 of file sample.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--no key, author in postgres-row-estimation
+Warning--to sort, need author or key in postgres-row-estimation
+Warning--no key, author in apache-age
+Warning--no author, editor, organization, or key in apache-age
+Warning--to sort, need author or key in apache-age
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Warning--no key, author in apache-age
+Warning--no key, author in apache-age
+Warning--no key, author in postgres-row-estimation
+Warning--no key, author in postgres-row-estimation
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--no key, author in apache-age
+Warning--no author, editor, organization, or key in apache-age
+Warning--empty organization in apache-age
+Warning--empty year in apache-age
+Warning--empty organization in apache-age
+Warning--no key, author in postgres-row-estimation
+Warning--empty address in histogram
+Warning--empty address in DecoMine
+Warning--empty address in ripple-join
+Warning--empty address in GRFusion
+Warning--empty address in learning-based-estimation-4
+Warning--page numbers missing in both pages and numpages fields in learning-based-estimation-4
+Warning--empty address in optimize-nested-vldb-1986
+Warning--empty address in GLogS
+Warning--empty address in index-based-join-sampling
+Warning--page numbers missing in both pages and numpages fields in index-based-join-sampling
+Warning--empty address in wanderjoin
+Warning--empty address in AutoMine
+Warning--empty address in cset
+Warning--empty address in gcare
+Warning--empty address in selinger
+You've used 23 entries,
+            5901 wiz_defined-function locations,
+            1657 strings with 23958 characters,
+and the built_in function-call counts, 30752 in all, are:
+= -- 3664
+> -- 1319
+< -- 0
++ -- 443
+- -- 452
+* -- 2412
+:= -- 3178
+add.period$ -- 112
+call.type$ -- 23
+change.case$ -- 179
+chr.to.int$ -- 23
+cite$ -- 61
+duplicate$ -- 2592
+empty$ -- 1809
+format.name$ -- 532
+if$ -- 7242
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 97
+newline$ -- 285
+num.names$ -- 190
+pop$ -- 983
+preamble$ -- 1
+purify$ -- 380
+quote$ -- 0
+skip$ -- 946
+stack$ -- 0
+substring$ -- 2232
+swap$ -- 289
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 578
+warning$ -- 30
+while$ -- 188
+width$ -- 0
+write$ -- 509
+(There were 31 warnings)
