@@ -184,7 +184,7 @@ Recently, some studies have been conducted to estimate cardinalities in the proc
 In detail, 
 C-Set \cite{cset} decomposes the query graph and the data graph into star-shaped subgraphs, and constructs characteristic sets to estimate.
 AutoMine \cite{AutoMine} proposes to estimate the cost of a plan for subgraph matching with the number of iterations in the nested loop.
-DecoMine \cite{DecoMine} improve the method of AutoMine and presents an approximate-mining based cost model to estimate the costs of nested loops.
+DecoMine \cite{DecoMine} improves the method of AutoMine and presents an approximate-mining based cost model to estimate the costs of nested loops.
 Then, DecoMine finds the optimal abstract syntex tree with the smallest cost.
 GLogS \cite{GLogS} proposes a graph optimizer named GLogue to search for the optimal plan.
 In GLogue, an edge can represent a binary join or a subtask of an extension, and please note that an extension can be regarded as a set of joins.
@@ -206,7 +206,9 @@ It seems that Apache/Age is like a syntactic sugar, and the advantanges of graph
 In terms of index-based JOPTs, such methods build graph indices or graph views on the relational databases, and attempt to accelerate queries with the indices.
 GRFusion \cite{GRFusion} builds a graph view in main-memory based on the relational tables, and supports queries on both tables and graph views.
 Then, some relational joins can be replaced with graph traversals, and some graph-level optimizations can be applied.
-GQ-Fast \cite{gqfast} store the relational tables in the form of graphs, and generate physical plans by optimizing Relationship Query Normalized Algebra expressions with a Physical-plan Producer.
+GQ-Fast \cite{gqfast} is proposed to deal with relationship queries, and works accompanying with traditional relational databases.
+Specifically, in GQ-Fast, indices with lookup data structure are built to accelerate.
+Given a SQL query, GQ-Fast generates physical plans by transforming relationship query normalized algebra expressions with a Physical-plan Producer, and more optimizations for the plans are necessary.
 GrainDB \cite{graindb} builds RID indices, and presents two new join methods (i.e., sip-join and merged-sip-join) that can get the adjacent edges and one-hop neighbors of vertices with RID indices.
 Based on these join methods, in some settings, the cost of multiple joins can be reduced significantly.
 However, GrainDB inherits the optimizer of DuckDB, and replaces some joins with sip-joins and merged-sip-joins.
@@ -217,20 +219,109 @@ Therefore, cost estimation in the optimizer may not be optimal and the best plan
 \label{sec:preliminaries}
 
 
-\section{Overview of the Relational-Graph Optimizer}
-\label{sec:system-design}
+\section{Overview of the Converged JOPT}
+\label{sec:overview}
 
 
-\section{Theoretical Analysis about the Superiority of Graph Optimizer}
+\section{Theoretical Analysis about the Superiority of the Converged JOPT}
 \label{sec:theoretical-analysis}
+
+In this section, we prove that the converged JOPT is faster in compilation than the well-studied relational JOPTs by analyzing their complexities respectively.
+As one of the most widely adopted optimizers for relational databases, we use Calcite \cite{calcite,columbia} as a representative of relational JOPTs and analyze its efficiency of join order optimization.
+For the converged JOPT, we use GLogue \cite{GLogS} as the graph JOPT, and integrate it with Calcite.
+
+Please note that in this section, it is supposed that $n + m$ tables are joined together, where $n$ tables represent vertices while $m$ tables represent edges.
+Suppose that there are $t$ implementation methods for join.
+Then, the complexities of optimizing the join order with Calcite and the converged JOPT are analyzed respectively as follows.
+
+\begin{theorem}
+    \label{theorem:complexity-of-calcite}
+    The time complexity of join order optimization with Calcite is at least $O(\frac{4^{m+n-1}}{m+n}t^{m+n-1})$.
+\end{theorem}
+\begin{proof}
+    The $n + m$ tables joined together can form a graph, where the tables represent vertices in the graph, and if there is a join condition specifying the equivalence of two columns in two two tables, there is an edge between these two tables.
+    Then, the complexity of join order optimization with Calcite can be estimated as the number of possible physical plans that can be generated.
+    
+    To avoid cross product, except for the first table, the selected tables to be be joined with the already chosen tables should be neighbors of the chosen tables in the graph.
+    Therefore, the join order can be represented as a spanning tree in the graph.
+    By computing the number of physical plans can be generated according to each spanning tree, the total number of physical plans can be obtained.
+    However, same phyical plans may be obtained according to different spanning trees.
+    For example, suppose a graph is a rectangle with four vertices and four edges.
+    It may be constructed for a query like:
+    \begin{equation*}
+        \begin{split}
+            \text{SELECT}\hspace{.5em} ... & \hspace{.5em}\text{FROM}\hspace{.5em} A, B, C, D \hspace{.5em}\text{WHERE}\hspace{.5em} A.1 = B.1 \\ 
+            & \hspace{.5em}\text{AND}\hspace{.5em} B.2 = C.1 \hspace{.5em}\text{AND}\hspace{.5em} C.2 = D.1 \hspace{.5em}\text{AND}\hspace{.5em} D.2 = A.2. 
+        \end{split}
+    \end{equation*}
+    Then, the spanning tree with edges \{AB, BC, CD\} and the one with edges \{AB, BC, AD\} can generate same physical plans.
+    Consequently, the summation of the number of physical plans corresponding to all the spanning trees is larger than the actual number of physical plans.
+    In this proof, we compute the number of physical plans for a spanning tree, and it is the lower bound of the number of physical plans that can be genrated.
+
+    Given a spanning tree with $k$ edges (i.e., $k+1$ vertices representing tables), the number of logical plans corresponding to the spanning tree is roughly
+    \begin{equation*}
+        \begin{split}
+            c(k) & = 2 * (c(0)c(k-1) + c(1)c(k-2) + \cdots + c(k-1)c(0)) \\
+            & = 2\Sigma_{i=0}^{i=k-1}c(i)c(k-1-i), \\
+            & \text{where } c(0) = 1.
+        \end{split}
+    \end{equation*}
+    With the generating function, it is obtained that 
+    \begin{equation*}
+        c(k) = \frac{2^k}{k+1}C(2k, k).
+    \end{equation*}
+    Since $k$ is the number of edges, and $k = m + n - 1$ in the spanning tree.
+    Thus, the number of logical plans w.r.t.~a spanning tree is 
+    \begin{equation*}
+        \frac{2^{m+n-1}}{m+n}C(2m+2n-2, m+n-1) \geq \frac{4^{m+n-1}}{m+n}.
+    \end{equation*}
+   Then, the number of physical plans is at least $\frac{4^{m+n-1}}{m+n}t^{m+n-1}$, so is the complexity of join order optimization with Calcite.
+   
+   In conclusion, Theorem \ref{theorem:complexity-of-calcite} is correct.
+\end{proof}
+
+\begin{theorem}
+    \label{theorem:complexity-of-glogue}
+    The time complexity of join order optimization with the converged JOPT can be at most $3^n$.
+\end{theorem}
+\begin{proof}
+    Since the $n + m$ tables represent vertices and edges respectively and the join among them can be represented as a graph query, the converged JOPT choose to optimize the join order with the graph optimizer, i.e., GLogue.
+
+    As GLogue ensures worst-case optimality and the considered patterns are all induced subgraphs, the time complexity of join order optimization with GLogue is not related to the number of edges (i.e., $m$).
+    Because JOOP is reduced to a variant of shortest path problem, the time complexity of join order optimization is $O(\mathcal{E})$, where $\mathcal{E}$ is the number of edges in GLogue.
+    In detail, 
+    \begin{equation*}
+        \begin{split}
+            O(\mathcal{E}) & = C(n, n-1)*(2^{n-1}-1) + C(n, n-2) * (2^{n-2}- 1) \\
+            & + \cdots + C(n, 1) * (2^1 - 1) \\
+            & = 3^n - 2^{n+1} +1 \\
+            & < 3^n.
+        \end{split}
+    \end{equation*}
+    
+    In conclusion, Theorem \ref{theorem:complexity-of-glogue} is correct.
+\end{proof}
+
+Based on Theorem \ref{theorem:complexity-of-calcite} and Theorem \ref{theorem:complexity-of-glogue}, we have 
+\begin{equation*}
+    \begin{split}
+        \frac{\text{Time Complexity of Calcite}}{\text{Time Complexity of the Converged JOPT}} & = \frac{\frac{4^{m+n-1}}{m+n}}{3^n}t^{m+n-1} \\
+        & \geq 2^{m-3}(\frac{4}{3})^nt^{m+n-1}.
+    \end{split}
+\end{equation*}
+Therefore, it suggests that the converged JOPT is exponentially faster than Calcite in compilation.
+There are mainly three reasons contributing to the efficient performance of the converged JOPT:
+(1) Different implementations of the join operators are not considered in the converged JOPT, because the neighbors of vertices can be efficiently accessed with the graph indices.
+(2) In the converged JOPT, only the number of vertices influence the complexity of join order optimization, while the complexity is determined by both the numbers of vertices and edges in Calcite.
+(3) The converged JOPT takes isomorphism into consideration in optimization and can further reduce the search space, while Calcite does not consider optimization related to isomorphism.
 
 
 \section{System Implementation}
 \label{sec:system-implementation}
 
 
-\section{Experiments}
-\label{sec:experiments}
+\section{Evaluation}
+\label{sec:evaluation}
 
 
 \section{Conclusions}

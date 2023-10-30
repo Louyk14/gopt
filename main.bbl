@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{23}
+\begin{thebibliography}{25}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -78,6 +78,18 @@ PostgreSQL \bibinfo{year}{2023}\natexlab{}.
 \urldef\tempurl%
 \url{https://doi.org/10.1145/3567955.3567956}
 \showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Graefe}{Graefe}{1995}]%
+        {calcite}
+\bibfield{author}{\bibinfo{person}{Goetz Graefe}.} \bibinfo{year}{1995}\natexlab{}.
+\newblock \showarticletitle{The Cascades Framework for Query Optimization}.
+\newblock \bibinfo{journal}{\emph{{IEEE} Data Eng. Bull.}} \bibinfo{volume}{18}, \bibinfo{number}{3} (\bibinfo{year}{1995}), \bibinfo{pages}{19--29}.
+\newblock
+\urldef\tempurl%
+\url{http://sites.computer.org/debull/95SEP-CD.pdf}
+\showURL{%
+\tempurl}
 
 
 \bibitem[\protect\citeauthoryear{Haas and Hellerstein}{Haas and Hellerstein}{1999}]%
@@ -258,6 +270,14 @@ PostgreSQL \bibinfo{year}{2023}\natexlab{}.
 \urldef\tempurl%
 \url{https://doi.org/10.14778/3368289.3368296}
 \showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Xu}{Xu}{1998}]%
+        {columbia}
+\bibfield{author}{\bibinfo{person}{Yongwen Xu}.} \bibinfo{year}{1998}\natexlab{}.
+\newblock \bibinfo{title}{EFFICIENCY IN THE COLUMBIA DATABASE QUERY OPTIMIZER}.
+\newblock
+\newblock
 
 
 \bibitem[\protect\citeauthoryear{Yang, Kamsetty, Luan, Liang, Duan, Chen, and Stoica}{Yang et~al\mbox{.}}{2020}]%
