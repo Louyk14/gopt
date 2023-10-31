@@ -4,6 +4,9 @@
 
 \documentclass[sigconf, nonacm]{acmart}
 
+\usepackage{graphicx}
+\usepackage{subcaption}
+
 \newtheorem{theorem}{Theorem}
 \newtheorem{example}{Example}
 %% The following content must be adapted for the final version
@@ -219,20 +222,96 @@ Therefore, cost estimation in the optimizer may not be optimal and the best plan
 \label{sec:preliminaries}
 
 
+
+\begin{figure*}
+    \includegraphics[width=.8\textwidth]{figures/dataflow.png}
+    \caption{The dataflow of the converged JOPT.}
+    \label{fig:dataflow}
+\end{figure*}
+
 \section{Overview of the Converged JOPT}
 \label{sec:overview}
+For the converged JOPT, it integrates the capabilities of both the relational and graph databases.
+The dataflow of the converged JOPT is shown in Fig.~\ref{fig:dataflow}.
+In detail, with the query statement provided by the user, a query tree is first constructed.
+Since both relational operators and graph operators can be used as tree nodes, the query trees generated here is different from those generated in relational databases.
+Specifically, the query trees generated for the converged JOPT are called the query graph-relational-trees (abbr.~the query GRTrees).
+An example of a query GRTree is shown in Fig.~\ref{fig:query-grtree-pattern}.
+Given a query as follows:
+\begin{equation*}
+    \begin{split}
+        & \text{SELECT}\hspace{.5em} * \\ 
+        & \hspace{.5em}\text{FROM}\hspace{.5em} graph\_table (graph\_pg \\
+        & match \\
+        & (inv is Inv) -[]- (d is Date), \\
+        & (inv)-[]-(item is Item)-[]-(cat is Catalog)-[]-(inv) \\
+        & columns (p1.name as person1,\\
+        &     p2.name as person2)\\
+        & );
+    \end{split}
+\end{equation*}
+It means to conduct pattern matching with the pattern graph shown in Fig.~\ref{fig:query-grtree-pattern}.
+A possible query GRTree is shown in Fig.~\ref{fig:query-grtree}.
+Please note that operators \textbf{Expand}, \textbf{GetV}, and \textbf{Intersect} are not defined in the query trees of relational databases, and they are special for graph JOPTs.
+These three operators are presented in GLogue \cite{GLogS}, and are applied to get the adjacent vertices of edges, or the common neighbors of vertices.
+To be specific, \textbf{Expand($l_s$->$l_t$)} gets the edges from vertices labeled \textit{$l_s$} to vertices labeled \textit{$l_t$}.
+For example, as shown in Fig.~\ref{fig:query-grtree}, by expanding from a vertex labeled \textit{Catalog} with \textbf{Expand(\textit{Catalog}->\textit{Item})}, edges from \textit{Catalog} to \textit{Item} are obtained.
+Similarly, edges from \textit{Inv} to \textit{Item} are also obtained with \textbf{Expand(\textit{Inv}->\textit{Item})}.
+\textbf{GetV($l_t$)} is usually used after an \textbf{Expand} operator, and it gets the destination vertices of the edges obtained with \textbf{Expand}. 
+\textbf{Intersect()} gets the intersection of several vertex sets to obtain the common neighbors.
+For example, with the \textbf{Intersect()} operator in Fig.~\ref{fig:query-grtree}, the common neighbors of a vertex labeled \textit{Catalog} and a vertex labeled \textit{Inv} is obtained.
+
+\begin{example}
+Fig.~\ref{fig:query-grtree} and Fig.~\ref{fig:query-grtree-2} show two possible query GRTrees (i.e., $\text{GRT}_1$ and $\text{GRT}_2$) w.r.t.~the pattern in Fig.~\ref{fig:query-grtree-pattern}.
+In detail, $\text{GRT}_1$ first finds paths matching the pattern \textit{Date}-\textit{Inv}-\textit{Catalog}, and then find the common neighbors of the vertices labeled \textit{Inv} and \textit{Catalog}, respectively.
+Meanwhile, $\text{GRT}_2$ conducts pattern matching with equal-joins.
+$\text{GRT}_2$ first joins the paths obtained by pattern matching w.r.t.~\textit{Item}-\textit{Inv} and \textit{Item}-\textit{Catalog}, respectively.
+Then, equal-joins are conducted again between the results and paths labeled \textit{Inv}-\textit{Date}.
+\end{example}
+
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.15\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{./figures/query-grtree-pattern.png}
+        \caption{The queried pattern.}
+        \label{fig:query-grtree-pattern}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.35\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{./figures/query-grtree.png}
+        \caption{The query GRTree $\text{GRT}_1$.}
+        \label{fig:query-grtree}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{./figures/query-grtree-2.png}
+        \caption{The query GRTree $\text{GRT}_2$.}
+        \label{fig:query-grtree-2}
+    \end{subfigure}
+    \caption{An example of query GRTree.}
+    \label{fig:query-grtree-example}
+\end{figure*}
+
+Then, the converged JOPT optimizes the query GRTree to generate the optimal plan.
+In detail, the tables that can represent vertices and edges are first distinguished, and the graph JOPT optimizes the join order among these tables.
+The join of these tables can produce an intermediate table, which is denoted as $T_{inter}$.
+Then, for the tables that cannot represent vertices and edges, the relational JOPT optimizes the join order among these tables together with $T_{inter}$, and generates the optimial plan.
+Finally, the execute engine queries with the plan, and returns the results to the user.
+
 
 
 \section{Theoretical Analysis about the Superiority of the Converged JOPT}
 \label{sec:theoretical-analysis}
 
-In this section, we prove that the converged JOPT is faster in compilation than the well-studied relational JOPTs by analyzing their complexities respectively.
+In this section, we prove that the converged JOPT is faster in join order optimization than the well-studied relational JOPTs by analyzing their complexities respectively.
 As one of the most widely adopted optimizers for relational databases, we use Calcite \cite{calcite,columbia} as a representative of relational JOPTs and analyze its efficiency of join order optimization.
 For the converged JOPT, we use GLogue \cite{GLogS} as the graph JOPT, and integrate it with Calcite.
 
 Please note that in this section, it is supposed that $n + m$ tables are joined together, where $n$ tables represent vertices while $m$ tables represent edges.
 Suppose that there are $t$ implementation methods for join.
 Then, the complexities of optimizing the join order with Calcite and the converged JOPT are analyzed respectively as follows.
+For simplicity, the time complexities are evaluated by the number of physical plans generated by the JOPTs.
 
 \begin{theorem}
     \label{theorem:complexity-of-calcite}
@@ -256,9 +335,9 @@ Then, the complexities of optimizing the join order with Calcite and the converg
     \end{equation*}
     Then, the spanning tree with edges \{AB, BC, CD\} and the one with edges \{AB, BC, AD\} can generate same physical plans.
     Consequently, the summation of the number of physical plans corresponding to all the spanning trees is larger than the actual number of physical plans.
-    In this proof, we compute the number of physical plans for a spanning tree, and it is the lower bound of the number of physical plans that can be genrated.
+    In this proof, we compute the number of physical plans for one spanning tree, and this number is the lower bound of the number of physical plans that can be generated.
 
-    Given a spanning tree with $k$ edges (i.e., $k+1$ vertices representing tables), the number of logical plans corresponding to the spanning tree is roughly
+    Given a spanning tree with $k$ edges (i.e., $k+1$ vertices representing tables) and only one leaf node, the number of logical plans corresponding to the spanning tree is roughly
     \begin{equation*}
         \begin{split}
             c(k) & = 2 * (c(0)c(k-1) + c(1)c(k-2) + \cdots + c(k-1)c(0)) \\
@@ -280,9 +359,23 @@ Then, the complexities of optimizing the join order with Calcite and the converg
    In conclusion, Theorem \ref{theorem:complexity-of-calcite} is correct.
 \end{proof}
 
+\begin{lemma}
+    \label{lemma:upper-bound-of-calcite}
+    Given $n$ tables, the time complexity of join order optimization with Calcite has an upper bound of $O(\frac{(2n-2)!}{(n-1)!}t^{n-1})$.
+\end{lemma}
+\begin{proof}
+    The upper bound of the time complexity of join order optimization is achieved when there is a condition between any two of the $n$ tables.
+    Because at that time, the tables can be joined in any order.
+
+    Since each join order corresponds to a full binary tree with $2n-1$ nodes, the problem is to count the number of possible full binary trees.
+    Similar to Catalan number, the number of full binary trees is $O(C(2n-2, n-1) - C(2n-2, n))$.
+    For each full binary tree, there are $n!$ ways to set the leaf nodes. 
+    Then, the number of generated physical plans is $O(\frac{(2n-2)!}{(n-1)!}t^{n-1})$.
+\end{proof}
+
 \begin{theorem}
     \label{theorem:complexity-of-glogue}
-    The time complexity of join order optimization with the converged JOPT can be at most $3^n$.
+    The time complexity of join order optimization with the converged JOPT can be at most $3^n$ when the joins are all between vertices and edges.
 \end{theorem}
 \begin{proof}
     Since the $n + m$ tables represent vertices and edges respectively and the join among them can be represented as a graph query, the converged JOPT choose to optimize the join order with the graph optimizer, i.e., GLogue.
@@ -300,20 +393,47 @@ Then, the complexities of optimizing the join order with Calcite and the converg
     \end{equation*}
     
     In conclusion, Theorem \ref{theorem:complexity-of-glogue} is correct.
+
 \end{proof}
 
-Based on Theorem \ref{theorem:complexity-of-calcite} and Theorem \ref{theorem:complexity-of-glogue}, we have 
+Based on the complexity analysis in Theorem \ref{theorem:complexity-of-calcite} and Theorem \ref{theorem:complexity-of-glogue}, it is found that when the tables represent vertices and edges, 
 \begin{equation*}
     \begin{split}
         \frac{\text{Time Complexity of Calcite}}{\text{Time Complexity of the Converged JOPT}} & = \frac{\frac{4^{m+n-1}}{m+n}}{3^n}t^{m+n-1} \\
         & \geq 2^{m-3}(\frac{4}{3})^nt^{m+n-1}.
     \end{split}
 \end{equation*}
-Therefore, it suggests that the converged JOPT is exponentially faster than Calcite in compilation.
+Therefore, it suggests that the converged JOPT is exponentially faster than Calcite for graph-like join order optimization.
 There are mainly three reasons contributing to the efficient performance of the converged JOPT:
 (1) Different implementations of the join operators are not considered in the converged JOPT, because the neighbors of vertices can be efficiently accessed with the graph indices.
 (2) In the converged JOPT, only the number of vertices influence the complexity of join order optimization, while the complexity is determined by both the numbers of vertices and edges in Calcite.
-(3) The converged JOPT takes isomorphism into consideration in optimization and can further reduce the search space, while Calcite does not consider optimization related to isomorphism.
+(3) The converged JOPT can take isomorphism into consideration in optimization and further reduce the search space, while Calcite does not consider optimization related to isomorphism.
+
+The theoretical analysis indicates that integrating graph optimizers into relational optimizers can improve the efficiency of join order optimization signigicantly.
+Besides, if there are some tables that cannot represent vertices or edges, then the order of such tables cannot be optimized by graph optimizers.
+For example, suppose five tables form a clique, and then these tables cannot be vertices or edges in a graph.
+Specifically, according to the dataflow shown in Fig.~\ref{fig:dataflow}, the join order of these left tables are optimzed by relational optimizers such as Calcite.
+Let the number of left tables be $p$, and together with the table obtained by the join of the tables optimized with graph optimizer, Calcite needs to optimize the join order among $p + 1$ tables.
+
+When $p = 0$, all the tables represent vertices or edges, and the time complexity of the converged JOPT is exponentially smaller than that of Calcite as analyzed as above.
+
+When $p = 1$, only one table (saying $T_1$) does not represent a vertex or an edge, and Calcite optimizes the join between two tables.
+One of these two tables is $T_1$, and the other is the table obtained by the join of the tables optimized with graph optimizer.
+Then, we have
+\begin{equation*}
+    \begin{split}
+        \frac{\text{Time Complexity of Calcite}}{\text{Time Complexity of the Converged JOPT}} > \hspace{-12em} & \\
+        & \frac{\frac{2^{m+n-1}}{m+n}C(2m+2n-2, m+n-1)t^{m + n - 1}}{3^{\hat{n}} + \frac{(2p)!}{(p)!}t^{p}} \\
+        & = \frac{\frac{2^{m+n-1}}{m+n}C(2m+2n-2, m+n-1)t^{m + n - 1}}{3^{\hat{n}} + 2} >> 1,
+    \end{split}
+\end{equation*}
+where $\hat{n}$ is the number of tables representing vertices.
+It indicates the superiority of the converged JOPT.
+
+When $p = m + n - 1$ or $p = m + n$, at most one table can represent vertices or edges, and the converged JOPT degenerates to Calcite, and has the same efficiency as it.
+A typical example is when there is a condition between any two of these $m + n$ tables.
+
+The results show that the converged JOPT is always superiority to relational JOPTs.
 
 
 \section{System Implementation}
