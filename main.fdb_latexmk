@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 0 "main.aux" "main.bbl" "main" 1698826684 -1
+["bibtex main"] 1698840072 "main.aux" "main.bbl" "main" 1698840708 0
   "./ACM-Reference-Format.bst" 1619726048 84856 cdf46f74ac483d72585084276eb3e09d ""
   "./sample.bib" 1698642350 46365 7f76d18e19418874536504643e52f9be ""
-  "main.aux" 1698826684 7701 e0b2f12f4285589f174be871cf7f1cf7 "pdflatex"
+  "main.aux" 1698840708 8846 65e97d00f80b30a2b522008ffb53e9ff "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1698826683 "/Users/louyk/Desktop/papers/Gopt/main.tex" "main.pdf" "main" 1698826684 0
-  "/Users/louyk/Desktop/papers/Gopt/main.tex" 1698826683 36031 66e20424f887e6c018ad56d384a57fd7 ""
+["pdflatex"] 1698840706 "/Users/louyk/Desktop/papers/Gopt/main.tex" "main.pdf" "main" 1698840708 0
+  "/Users/louyk/Desktop/papers/Gopt/main.tex" 1698840706 38213 baea87be965fa36b2f9ad12037660388 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1490131464 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1490131464 2933 9ad527ce78d7c5fa0a642dead095f172 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc" 1490131464 2934 a4a9158faed2e9e89c771b4e3b7fc12f ""
@@ -213,13 +213,16 @@
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
   "acmart.cls" 1619726048 96943 22aab88eb4450dc97aba90abe39b216c ""
   "figures/dataflow.png" 1698742943 65883 af9bbdaa529de9af5fc8ba5035a42ab1 ""
+  "figures/intro-graph-query.png" 1698832539 143971 92317422b8f7c8e2521adbba0d231a76 ""
+  "figures/intro-select-convert.png" 1698840336 223047 15d1ff2ff748f53412ed0d5a6d812ae8 ""
+  "figures/intro-select.png" 1698840623 110698 8f1ebf7e3ccc56442d89b748a623b673 ""
   "figures/query-grtree-2.png" 1698750964 126345 f68e36e3a6f1d85344e5aba3756526dd ""
   "figures/query-grtree-pattern.png" 1698739721 36738 6258a483940006a12bec8b6e18ed7bc3 ""
   "figures/query-grtree.png" 1698751100 120757 c98fa4df22730132817a8ea939982bf1 ""
-  "main.aux" 1698826684 7701 e0b2f12f4285589f174be871cf7f1cf7 "pdflatex"
-  "main.bbl" 1698806103 19422 538b8e726ea5b2cef20f1601e4c559d8 "bibtex main"
-  "main.out" 1698826684 2462 0e272c61d5ee786b5f99e9bc6b4808f3 "pdflatex"
-  "main.tex" 1698826683 36031 66e20424f887e6c018ad56d384a57fd7 ""
+  "main.aux" 1698840708 8846 65e97d00f80b30a2b522008ffb53e9ff "pdflatex"
+  "main.bbl" 1698840072 19422 538b8e726ea5b2cef20f1601e4c559d8 "bibtex main"
+  "main.out" 1698840708 2462 61fb8309f02b8fa79b7ce4db9ee6a258 "pdflatex"
+  "main.tex" 1698840706 38213 baea87be965fa36b2f9ad12037660388 ""
   (generated)
   "main.aux"
   "main.log"

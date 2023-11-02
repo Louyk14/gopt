@@ -1,0 +1,89 @@
+This is BibTeX, Version 0.99d (TeX Live 2023)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: ACM-Reference-Format.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: sample.bib
+Warning--string name "september" is undefined
+--line 1008 of file sample.bib
+Warning--entry type for "columbia" isn't style-file defined
+--line 1259 of file sample.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--no key, author in postgres-row-estimation
+Warning--to sort, need author or key in postgres-row-estimation
+Warning--no key, author in apache-age
+Warning--no author, editor, organization, or key in apache-age
+Warning--to sort, need author or key in apache-age
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Warning--no key, author in apache-age
+Warning--no key, author in apache-age
+Warning--no key, author in postgres-row-estimation
+Warning--no key, author in postgres-row-estimation
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--no key, author in apache-age
+Warning--no author, editor, organization, or key in apache-age
+Warning--empty organization in apache-age
+Warning--empty year in apache-age
+Warning--empty organization in apache-age
+Warning--no key, author in postgres-row-estimation
+Warning--empty address in histogram
+Warning--empty address in DecoMine
+Warning--empty address in ripple-join
+Warning--empty address in GRFusion
+Warning--empty address in learning-based-estimation-4
+Warning--page numbers missing in both pages and numpages fields in learning-based-estimation-4
+Warning--empty address in optimize-nested-vldb-1986
+Warning--empty address in GLogS
+Warning--empty address in index-based-join-sampling
+Warning--page numbers missing in both pages and numpages fields in index-based-join-sampling
+Warning--empty address in wanderjoin
+Warning--empty address in AutoMine
+Warning--empty address in cset
+Warning--empty address in gcare
+Warning--empty address in selinger
+You've used 25 entries,
+            5901 wiz_defined-function locations,
+            1670 strings with 24210 characters,
+and the built_in function-call counts, 32635 in all, are:
+= -- 3936
+> -- 1359
+< -- 0
++ -- 455
+- -- 468
+* -- 2514
+:= -- 3364
+add.period$ -- 122
+call.type$ -- 25
+change.case$ -- 189
+chr.to.int$ -- 25
+cite$ -- 63
+duplicate$ -- 2764
+empty$ -- 1932
+format.name$ -- 548
+if$ -- 7707
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 101
+newline$ -- 305
+num.names$ -- 206
+pop$ -- 1037
+preamble$ -- 1
+purify$ -- 408
+quote$ -- 0
+skip$ -- 1007
+stack$ -- 0
+substring$ -- 2384
+swap$ -- 305
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 624
+warning$ -- 30
+while$ -- 207
+width$ -- 0
+write$ -- 546
+(There were 32 warnings)

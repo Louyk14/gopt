@@ -53,18 +53,54 @@
 \section{Motivation}
 \label{sec:motivation}
 With the fast development and numerous usage of graph databases, graphs have been widely used in various fields to model data, such as the transportation networks, social networks, and financial systems.
-Since graphs have obtain more attention in both the industrial and academic areas, SQL/PGQ has added the semantics about graphs into the standard, and allows to conduct subgraph matching on relational databases.
-By default, subgraph matching in SQL/PGQ indicates homomorphism subgraph matching, and such subgraph matching problems can be solved by multiple joins on tables.
-As subgraph matching is a common and useful problem in both real-world and industrial applications, it is reasonable to provide relational the capability of efficienly deal with the subgraph matching problem.
+Since graphs have obtain more attention in both the industrial and academic areas, SQL/PGQ has added the semantics about graphs into the standard.
+For graphs, pattern matching is a common and crucial problem in both real-world and industrial applications, and it is reasonable to provide relational database the capability of efficienly dealing with the pattern matching problem.
+Regarding the grammar of SQL/PGQ, users can conduct pattern matching by specifying paths in the pattern graph.
+By default, pattern matching in SQL/PGQ indicates homomorphism pattern matching, and such pattern matching problems can be solved by multiple joins on tables.
+Example \ref{example:intro} illustrates the idea of solving graph queries expressed with SQL/PGQ by multiple-joins.
 
-Given the pattern graph, relational databases can conduct multiple joins to solve the subgraph matching problem.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.4\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{./figures/intro-select-convert.png}
+        \caption{The SQL/PGQ query corresponding to Fig.~\ref{fig:intro-graph-query}.}
+        \label{fig:intro-select-convert}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{./figures/intro-graph-query.png}
+        \caption{The pattern graph corresponding to the multiple-join in query \#37.}
+        \label{fig:intro-graph-query}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.25\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{./figures/intro-select.png}
+        \caption{Query \#37 of TPC-DS.}
+        \label{fig:intro-tpcds-query}
+    \end{subfigure}
+    \caption{An example of solve graph queries expressed with SQL/PGQ by multiple-joins.}
+    \label{fig:intro-example}
+\end{figure*}
+
+\begin{example}
+\label{example:intro}
+As shown in Fig.~\ref{fig:intro-example}, an example of transformation from SQL/PGQ queries to SQL queries is presented.
+In detail, Fig.~\ref{fig:intro-select-convert} queries for the items, item descriptions, and current prices of these items during time period between date1 and date2, where the prices of the items should be between 100 and 130, the quantity on-hand should be between 100 and 500, and the manufact should be in the specified manufact list.
+
+Specifically, the clause in the red rectangle specifies a pattern matching task, where the pattern graph is as shown in Fig.~\ref{fig:intro-graph-query}.
+It is clear that such a pattern matching task can also be expressed with SQL and solved by multiple-joins.
+The corresponding SQL query is shown in Fig.~\ref{fig:intro-tpcds-query}, and the clause in the green rectangle expresses the multiple-join used to solve the problem of pattern matching.
+In fact, this SQL query is actually query \#37 in TPC-DS.
+\end{example}
+
 However, as stated in the previous literatures, the join order can influence the efficiency of queries significantly.
 Specifically, querying with a plan with a good join order can be more than an order of magnitude faster than that with a bad join order.
 Therefore, the join order optimization problem (abbr.~JOOP) becomes more important and it is urgent to design efficient methods for JOOP.
 Many strategies have been proposed in the previous studies. 
 The methods used to solve JOOP are called the join order optimizers (abbr.~JOPTs).
 % For simplicity, the segment of a optimizer, which is used to optimize the join order, is called the JOO-optimizer in this paper.
-Given a SQL/PGQ query with subgraph matching, the existing work can be mainly categorized into two types regarding the ways they optimize the join order, i.e., translation-based JOPTs and Index-based JOPTs.
+Given a SQL/PGQ query with pattern matching, the existing work can be mainly categorized into two types regarding the ways they optimize the join order, i.e., translation-based JOPTs and Index-based JOPTs.
 
 %However, although the relations and graphs are combined in the language levels as shown in SQL/PQL, they are still far from fully integrated in real-world applications, and the features of relations and are graphs are not exploited completely.
 %For instance, relational optimizer and graph optimizer are hot and important topics in recent years, and the integration of them are not deeply studied yet. 
@@ -308,9 +344,11 @@ In this section, we prove that the converged JOPT is faster in join order optimi
 As one of the most widely adopted optimizers for relational databases, we use Calcite \cite{calcite,columbia} as a representative of relational JOPTs and analyze its efficiency of join order optimization.
 For the converged JOPT, we use GLogue \cite{GLogS} as the graph JOPT, and integrate it with Calcite.
 
-Please note that in this section, it is supposed that $n + m$ tables are joined together, where $n$ tables represent vertices while $m$ tables represent edges.
+A more simple condition is first considered.
+That is, all the tables in the query can represent vertices or edges.
+Then, it is supposed that there are $n + m$ tables are joined together, where $n$ tables represent vertices while $m$ tables represent edges.
 Suppose that there are $t$ implementation methods for join.
-Then, the complexities of optimizing the join order with Calcite and the converged JOPT are analyzed respectively as follows.
+The complexities of optimizing the join order with Calcite and the converged JOPT are analyzed respectively as follows.
 For simplicity, the time complexities are evaluated by the number of physical plans generated by the JOPTs.
 
 \begin{theorem}
@@ -375,10 +413,10 @@ For simplicity, the time complexities are evaluated by the number of physical pl
 
 \begin{theorem}
     \label{theorem:complexity-of-glogue}
-    The time complexity of join order optimization with the converged JOPT can be at most $3^n$ when the joins are all between vertices and edges.
+    The time complexity of join order optimization with the converged JOPT is smaller than $3^n$ if all the tables participant in join can represent vertices or edges.
 \end{theorem}
 \begin{proof}
-    Since the $n + m$ tables represent vertices and edges respectively and the join among them can be represented as a graph query, the converged JOPT choose to optimize the join order with the graph optimizer, i.e., GLogue.
+    Since the $n + m$ tables represent vertices and edges respectively and the join among them can be represented as a graph query, the converged JOPT optimizes the join order with the graph optimizer, i.e., GLogue.
 
     As GLogue ensures worst-case optimality and the considered patterns are all induced subgraphs, the time complexity of join order optimization with GLogue is not related to the number of edges (i.e., $m$).
     Because JOOP is reduced to a variant of shortest path problem, the time complexity of join order optimization is $O(\mathcal{E})$, where $\mathcal{E}$ is the number of edges in GLogue.
@@ -404,14 +442,10 @@ Based on the complexity analysis in Theorem \ref{theorem:complexity-of-calcite} 
     \end{split}
 \end{equation*}
 Therefore, it suggests that the converged JOPT is exponentially faster than Calcite for graph-like join order optimization.
-There are mainly three reasons contributing to the efficient performance of the converged JOPT:
-(1) Different implementations of the join operators are not considered in the converged JOPT, because the neighbors of vertices can be efficiently accessed with the graph indices.
-(2) In the converged JOPT, only the number of vertices influence the complexity of join order optimization, while the complexity is determined by both the numbers of vertices and edges in Calcite.
-(3) The converged JOPT can take isomorphism into consideration in optimization and further reduce the search space, while Calcite does not consider optimization related to isomorphism.
+The results also indicates that integrating graph optimizers into relational optimizers can improve the efficiency of join order optimization significantly.
 
-The theoretical analysis indicates that integrating graph optimizers into relational optimizers can improve the efficiency of join order optimization signigicantly.
 
-Besides, if there are some tables that cannot represent vertices or edges, then the order of such tables cannot be optimized by graph optimizers.
+Then, if there are some tables that cannot represent vertices or edges, the order of such tables cannot be optimized with graph optimizers, and the comparion becomes more complicate.
 For example, suppose five tables form a clique, and then these tables cannot be vertices or edges in a graph.
 Specifically, according to the dataflow shown in Fig.~\ref{fig:dataflow}, the join order of these left tables are optimzed by relational optimizers such as Calcite.
 Let the number of left tables be $s$, and together with the table obtained by the join of the tables optimized with graph optimizer, Calcite needs to optimize the join order among $s + 1$ tables.
@@ -467,6 +501,11 @@ To be more specific, we prove the superiority of the converged JOPT more theoret
     Based on Lemma \ref{lemma:join-spliter}, we have $\text{JN}_c(S \cup R) \geq \text{JN}_c(S_r) * \text{JN}_c(R) \geq \text{JN}_c(S_r) * \text{JN}_g(R)$.
     In conclusion, Theorem \ref{theorem:complexity-of-converged-jopt} is correct, and the converged JOPT always has smaller time complexity than Calcite.
 \end{proof}
+
+There are mainly three reasons contributing to the efficient performance of the converged JOPT:
+(1) Different implementations of the join operators are not considered in the converged JOPT, because the neighbors of vertices can be efficiently accessed with the graph indices.
+(2) In the converged JOPT, only the number of vertices influence the complexity of join order optimization, while the complexity is determined by both the numbers of vertices and edges in Calcite.
+(3) The converged JOPT can take isomorphism into consideration in optimization and further reduce the search space, while Calcite does not consider optimization related to isomorphism.
 
 
 \section{System Implementation}
