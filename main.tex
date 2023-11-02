@@ -6,6 +6,7 @@
 
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{multicol}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{example}{Example}
@@ -512,9 +513,77 @@ There are mainly three reasons contributing to the efficient performance of the 
 \label{sec:system-implementation}
 
 
-\section{Evaluation}
-\label{sec:evaluation}
+\section{Experiments}
+\label{sec:experiment}
 
+\subsection{Experimental Settings}
+\label{sec:experimental-settings}
+
+The experiments are conducted on three datasets.
+\begin{itemize}
+    \item Join Order Benchmark on IMDB (abbr.~JOB).
+    
+    \item LDBC Social Network Benchmark (abbr.~LDBC-SNB).
+    
+    \item TPC-DS.
+\end{itemize}
+
+
+\subsection{End-to-End Evaluation}
+\label{sec:exp-e2e-evaluation}
+
+compare the query time cost (e2e) of GrainDB, DuckDB, our method
+on metrics: time cost, sum of cardinality?
+the physical plans are not injected
+
+\begin{table}
+    \centering
+    \caption{Time cost on JOB dataset.}
+    \label{table:exp-e2e-job}
+    \begin{tabular}{c|c|c|c|c|c|c|c|c|}
+        \cline{2-9}
+         & \multicolumn{8}{|c|}{Sets}\\
+        \cline{2-9}
+         & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
+        \hline
+        \multicolumn{1}{|c|}{astar} & & * &  & * &  &  & * &\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Compilation Evaluation}
+\label{sec:exp-compilation-evaluation}
+
+compare the compilation efficiency with Calcite \& GLogue
+
+\subsection{Optimization Comparison}
+\label{sec:exp-optimization-comparison}
+
+compare the plan obtained after optimization
+i.e., inject the physical plans of [calcite]/duckdb/graindb/our method to graindb
+
+\subsection{Ablation Study}
+\label{sec:exp-ablation-study}
+
+our method
+v.s. without glogue optimizer (i.e., experiment with calcite plan)
+v.s. without graph index (i.e., experiment with graindb w.o. rai index)
+v.s. without all (i.e. similar as duckdb)
+
+\subsection{Scalability Test}
+\label{sec:exp-scalability}
+
+choose 10\%-100\% of data in the tables to test how the efficiency change along with the increase of data size
+
+
+\subsection{Queries with Both Relational and Graph Clauses}
+\label{sec:exp-relation-graph-queries}
+
+formulate some queries with both relational and graph queries, like
+
+select * from TABLE person, (select match * );
+
+existing methods cannot do such queries following SQL/PGQ
 
 \section{Conclusions}
 \label{sec:conclusions}
